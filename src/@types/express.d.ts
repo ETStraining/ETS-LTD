@@ -1,10 +1,11 @@
-import { Request } from "express";
-import { User } from "./User"; // Adjust the import path based on your structure
+// src/types/express.d.ts
+import { UserPayload } from "../entity/User"; // Adjust the path if necessary
+import * as express from "express";
 
 declare global {
     namespace Express {
         interface Request {
-            user?: User; // Use the custom User type
+            user?: UserPayload; // Use the custom UserPayload type
         }
     }
 }

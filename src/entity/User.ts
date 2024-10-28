@@ -37,3 +37,8 @@ password!: string;
     @UpdateDateColumn() // Automatically updates on save
     updatedAt!: Date;
 }
+
+export interface UserPayload {
+    id: string;
+    email: string;
+}
