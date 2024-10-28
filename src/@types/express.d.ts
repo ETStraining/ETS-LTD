@@ -5,7 +5,7 @@ import * as express from "express";
 declare global {
     namespace Express {
         interface Request {
-            user?: UserPayload; // Use the custom UserPayload type
+            user?: {id: string}; // Use the custom UserPayload type
         }
     }
 }
