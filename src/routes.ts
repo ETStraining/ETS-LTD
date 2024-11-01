@@ -1,31 +1,6 @@
-import { UserController } from "./controller/UserController";
 import { ContactController } from "./controller/ContactController";
 
 export const Routes = [
-    {
-        method: "get",
-        route: "/users",
-        controller: UserController,
-        action: "all"
-    },
-    {
-        method: "get",
-        route: "/users/:id",
-        controller: UserController,
-        action: "one"
-    },
-    {
-        method: "post",
-        route: "/users",
-        controller: UserController,
-        action: "save"
-    },
-    {
-        method: "delete",
-        route: "/users/:id",
-        controller: UserController,
-        action: "remove"
-    },
     {
         method: "get",
         route: "/contacts",
@@ -43,6 +18,12 @@ export const Routes = [
         route: "/contacts",
         controller: ContactController,
         action: "save"
+    },
+    {
+        method: "put",
+        route: "/contacts/:id",
+        controller: ContactController,
+        action: "update"
     },
     {
         method: "delete",
