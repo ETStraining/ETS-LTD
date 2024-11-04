@@ -1,52 +1,50 @@
-import * as express from "express"
-import * as bodyParser from "body-parser"
-import { Request, Response } from "express"
-import { AppDataSource } from "./data-source"
-import { Routes } from "./routes"
-import { User } from "./entity/User"
+import express, { Request, Response } from "express";
+import bodyParser from "body-parser";
+import { AppDataSource } from "./data-source";
+import { Routes } from "./routes";
+import { User } from "./entity/User";
 
 AppDataSource.initialize().then(async () => {
+    
+    const app = express();
+    app.use(bodyParser.json());
 
-    // create express app
-    const app = express()
-    app.use(bodyParser.json())
 
-    // register express routes from defined application routes
     Routes.forEach(route => {
         (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-            const result = (new (route.controller as any))[route.action](req, res, next)
+            const result = (new (route.controller as any))[route.action](req, res, next);
             if (result instanceof Promise) {
-                result.then(result => result !== null && result !== undefined ? res.send(result) : undefined)
-
+                result
+                    .then(result => result !== null && result !== undefined ? res.send(result) : undefined)
+                    .catch(err => next(err)); // Handle async errors
             } else if (result !== null && result !== undefined) {
-                res.json(result)
+                res.json(result);
             }
-        })
-    })
+        });
+    });
 
-    // setup express app here
-    // ...
+    
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`Express server has started on port ${PORT}. Open http://localhost:${PORT}/ to see results`);
+    });
 
-    // start express server
-    app.listen(3000)
-
-    // insert new users for test
+    
     await AppDataSource.manager.save(
         AppDataSource.manager.create(User, {
-            firstName: "Timber",
-            lastName: "Saw",
+            firstName: "Aime",
+            lastName: "Muhoza",
             age: 27
         })
-    )
+    );
 
     await AppDataSource.manager.save(
         AppDataSource.manager.create(User, {
-            firstName: "Phantom",
-            lastName: "Assassin",
+            firstName: "Maliza",
+            lastName: "Mugabekazi",
             age: 24
         })
-    )
+    );
 
-    console.log("Express server has started on port 3000. Open http://localhost:3000/users to see results")
-
-}).catch(error => console.log(error))
+    console.log("Sample users have been added to the database.");
+}).catch(error => console.log("Error during Data Source initialization", error));
