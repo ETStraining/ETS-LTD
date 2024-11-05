@@ -1,7 +1,7 @@
 import { UserController } from "../controller/UserController";
 import { AdminController } from "../controller/AdminController";
 
-export const Routes = [
+export const routes = [
   // User routes
   {
     method: "get",
@@ -17,25 +17,25 @@ export const Routes = [
   },
   {
     method: "post",
-    route: "/users/register", // Registration route
+    route: "/users/register",
     controller: UserController,
     action: "register",
   },
   {
     method: "post",
-    route: "/users/login", // Login route
+    route: "/users/login", 
     controller: UserController,
     action: "login",
   },
   {
     method: "post",
-    route: "/users/forgot-password", // Endpoint for requesting password reset
+    route: "/users/forgot-password", 
     controller: UserController,
     action: "forgotPassword",
   },
   {
     method: "post",
-    route: "/users/reset-password", // Endpoint for resetting password
+    route: "/users/reset-password",
     controller: UserController,
     action: "resetPassword",
   },

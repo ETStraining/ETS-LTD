@@ -1,35 +1,27 @@
 {
   "compilerOptions": {
-    "lib": ["es5", "es6"],
-    "target": "es6", // Change to es6 for modern JavaScript features
+    "lib": ["es6", "dom"],
+    "target": "es6",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./build",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "strict": true, // Enable strict type-checking options
-    "esModuleInterop": true, // Enables emit interoperability between CommonJS and ES Modules
-    "skipLibCheck": true, // Skip type checking of declaration files for faster compilation
-    "forceConsistentCasingInFileNames": true, // Disallow inconsistently-cased references to the same file
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
     "typeRoots": [
       "./node_modules/@types",
-      "./src/@types" // Include custom type declarations
+      "./src/@types"
     ]
   },
   "include": [
-    "src/entity/User.ts", // Corrected path
-    "src/controller/UserController.ts",
-    "src/middleware/authMiddleware.ts",
-    "src/routes/routes.ts", // Explicitly include routes
-    "src/types/**/*.d.ts",
-    "src/index.ts" // Include the main entry point
+    "src/**/*"
   ],
-
-  
-    
   "exclude": [
-    "node_modules", // Exclude node_modules
-    "**/*.spec.ts" // Exclude test files if you're using them
+    "node_modules",
+    "**/*.spec.ts"
   ]
 }
