@@ -23,7 +23,7 @@ export class ContactController {
 
     async save(request: Request, response: Response, next: NextFunction) {
         const { name, email, message } = request.body;
-        const contact = Object.assign(new Contact(), { name, email, message });
+        const contact = Object.assign(new Contact(name, email, message));
 
         const errors = await validate(contact);
         if (errors.length > 0) {

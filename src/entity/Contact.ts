@@ -1,20 +1,32 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
-import { Length, IsEmail } from "class-validator";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
+import { IsEmail, IsNotEmpty, Length } from 'class-validator';
+import { v4 as uuidv4 } from 'uuid';
 
 @Entity()
 export class Contact {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn('uuid')
+  contactId: string;
 
-    @Column()
-    @Length(2, 100)
-    name: string;
+  @Column()
+  @IsNotEmpty()
+  name: string;
 
-    @Column()
-    @IsEmail()
-    email: string;
+  @Column()
+  @IsEmail()
+  email: string;
 
-    @Column()
-    @Length(10, 500)
-    message: string;
+  @Column('text')
+  @IsNotEmpty()
+  message: string;
+
+  @CreateDateColumn()
+  submittedAt: Date;
+
+  constructor(name: string, email: string, message: string) {
+    this.contactId = uuidv4();
+    this.name = name;
+    this.email = email;
+    this.message = message;
+    this.submittedAt = new Date();
+  }
 }

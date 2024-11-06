@@ -1,5 +1,5 @@
-import { ContactController } from "./controller/ContactController";
-import { TrainingController } from "./controller/TrainingController"; 
+import { ContactController } from "../controller/ContactController";
+import { TrainingController } from "../controller/TrainingController";
 
 export const Routes = [
     // Contact routes
