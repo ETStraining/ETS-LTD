@@ -2,7 +2,7 @@ import { AppDataSource } from "../data-source";
 import { NextFunction, Request, Response } from "express";
 import { Admin } from "../entity/Admin";
 import * as bcrypt from "bcrypt";
-import * as jwt from "jsonwebtoken"; // Ensure to install this package if you haven't
+import * as jwt from "jsonwebtoken"; 
 
 export class AdminController {
     private adminRepository = AppDataSource.getRepository(Admin);

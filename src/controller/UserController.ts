@@ -3,15 +3,18 @@ import { NextFunction, Request, Response } from "express";
 import { User } from "../entity/User"; // Ensure this path is correct
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { CustomRequest } from "../middleware/userAuth"; // Import your CustomRequest type
+import { CustomRequest } from "../middleware/userAuth"; 
 
 export class UserController {
     private userRepository = AppDataSource.getRepository(User);
-    private secretKey = process.env.JWT_SECRET || "default-secret"; // Use an environment variable for your secret key
+    private secretKey = process.env.JWT_SECRET || "default-secret"; 
 
-    // Register a new user
     async register(request: Request, response: Response, next: NextFunction) {
         const { firstName, lastName, email, password, age } = request.body;
+
+        if (!firstName || !lastName || !email || !password || !age) {
+            return response.status(400).json({ message: "All fields are required" });
+        }
 
         try {
             const existingUser = await this.userRepository.findOne({ where: { email } });
@@ -29,9 +32,21 @@ export class UserController {
             });
 
             const savedUser = await this.userRepository.save(user);
-            return response.status(201).json(savedUser);
+
+        
+            return response.status(201).json({
+                success: true,
+                message: "User registered successfully",
+                user: {
+                    id: savedUser.id,
+                    firstName: savedUser.firstName,
+                    lastName: savedUser.lastName,
+                    email: savedUser.email,
+                    age: savedUser.age,
+                }
+            });
         } catch (error) {
-            console.error(error);
+            console.error("Error saving user:", error);
             return response.status(500).json({ message: "Error saving user" });
         }
     }
