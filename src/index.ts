@@ -19,7 +19,7 @@ AppDataSource.initialize()
 app.post('/api/contact', async (req: Request, res: Response) => {
   const { name, email, message } = req.body;
 
-  // Validate the incoming data
+
   const contact = new Contact(name, email, message);
   const errors = await validate(contact);
 

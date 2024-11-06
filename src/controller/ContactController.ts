@@ -12,8 +12,8 @@ export class ContactController {
     }
 
     async one(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id);
-        const contact = await this.contactRepository.findOne({ where: { id } });
+        const contactId = request.params.contactId; // Use `contactId` from the route parameter
+        const contact = await this.contactRepository.findOne({ where: { contactId } });
 
         if (!contact) {
             return response.status(404).json({ message: "Contact not found" });
@@ -39,10 +39,10 @@ export class ContactController {
     }
 
     async update(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id);
+        const contactId = request.params.contactId; // Use `contactId` from the route parameter
         const { name, email, message } = request.body;
 
-        let contactToUpdate = await this.contactRepository.findOneBy({ id });
+        let contactToUpdate = await this.contactRepository.findOneBy({ contactId });
         if (!contactToUpdate) {
             return response.status(404).json({ message: "Contact not found" });
         }
@@ -65,8 +65,8 @@ export class ContactController {
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id);
-        const contactToRemove = await this.contactRepository.findOneBy({ id });
+        const contactId = request.params.contactId; // Use `contactId` from the route parameter
+        const contactToRemove = await this.contactRepository.findOneBy({ contactId });
 
         if (!contactToRemove) {
             return response.status(404).json({ message: "Contact not found" });
