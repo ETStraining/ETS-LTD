@@ -1,5 +1,7 @@
 import { UserController } from "../controller/UserController";
 import { AdminController } from "../controller/AdminController";
+import {ServiceController} from "../controller/serviceController";
+import {CourseController} from "../controller/CourseController";
 
 export const routes = [
   // User routes
@@ -76,4 +78,68 @@ export const routes = [
     action: "deleteUser",
     // middleware: [userAuth], // Removed authentication middleware
   },
+
+    // Service routes
+  {
+    method: "get",
+    route: "/services",
+    controller: ServiceController,
+    action: "all"
+  },
+  {
+    method: "post",
+    route: "/services",
+    controller: ServiceController,
+    action: "create"
+  },
+  {
+    method: "get",
+    route: "/services/:id",
+    controller: ServiceController,
+    action: "findService"
+  },
+  {
+    method: "put",
+    route: "/services/:id",
+    controller: ServiceController,
+    action: "update"
+  },
+  {
+    method: "delete",
+    route: "/services/:id",
+    controller: ServiceController,
+    action: "remove"
+  },
+
+    //Course routes
+  {
+    method: "post",
+    route: "/courses",
+    controller: CourseController,
+    action: "create"
+  },
+  {
+    method: "get",
+    route: "/courses",
+    controller: CourseController,
+    action: "all"
+  },
+  {
+    method: "get",
+    route: "/courses/:id",
+    controller: CourseController,
+    action: "findCourse"
+  },
+  {
+    method: "put",
+    route: "/courses/:id",
+    controller: CourseController,
+    action: "update"
+  },
+  {
+    method: "delete",
+    route: "/courses/:id",
+    controller: CourseController,
+    action: "remove"
+  }
 ];
