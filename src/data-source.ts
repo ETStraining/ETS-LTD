@@ -4,6 +4,9 @@ import { User } from "./entity/User"
 import { Admin } from "./entity/Admin"
 import { Service} from "./entity/Service"
 import {Course} from "./entity/course"
+import { Contact } from "./entity/Contact";
+
+
 
 
 
@@ -17,7 +20,7 @@ export const AppDataSource = new DataSource({
     database: "ets",
     synchronize: true,
     logging: ["error"],
-    entities: [User, Service,Course],
+    entities: [User, Service,Course,Contact],
     migrations: [],
     subscribers: [],
 })
