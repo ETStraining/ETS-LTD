@@ -9,8 +9,7 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "ets"
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
+   
   
   pgadmin:
     image: dpage/pgadmin4

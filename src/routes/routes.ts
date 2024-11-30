@@ -1,5 +1,8 @@
 import { UserController } from "../controller/UserController";
 import { AdminController } from "../controller/AdminController";
+import { ContactController } from "../controller/ContactController";
+import { validationMiddleware } from "../middleware/contactVal";
+import { ContactDTO } from "../dto/ContactDTO";
 import {ServiceController} from "../controller/serviceController";
 import {CourseController} from "../controller/CourseController";
 
@@ -142,4 +145,40 @@ export const routes = [
     controller: CourseController,
     action: "remove"
   }
+
+
+  {
+    method: "get",
+    route: "/contacts",
+    controller: ContactController,
+    action: "getAll",
+  },
+  {
+    method: "get",
+    route: "/contacts/:id",
+    controller: ContactController,
+    action: "getOne",
+  },
+  {
+    method: "post",
+    route: "/contacts",
+    controller: ContactController,
+    action: "create",
+    middleware: validationMiddleware(ContactDTO), // Apply validation middleware
+  },
+  {
+    method: "put",
+    route: "/contacts/:id",
+    controller: ContactController,
+    action: "update",
+    middleware: validationMiddleware(ContactDTO), // Apply validation middleware
+  },
+  {
+    method: "delete",
+    route: "/contacts/:id",
+    controller: ContactController,
+    action: "delete",
+  },
 ];
+
+
