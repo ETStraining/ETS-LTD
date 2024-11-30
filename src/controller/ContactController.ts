@@ -40,8 +40,9 @@ export class ContactController {
       const savedContact = await this.contactRepository.save(contact);
       return res.status(201).json(savedContact); // Return a 201 Created status
     } catch (error) {
-      const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      res.status(400).json({ error: errMessage });
+      // const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      res.status(400).json({ error: error });
+
     }
   }
 
