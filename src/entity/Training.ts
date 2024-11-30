@@ -9,27 +9,27 @@ import {
   @Entity()
   export class Training {
     @PrimaryGeneratedColumn("uuid")
-    trainingId: string;
+    trainingId!: string; 
   
-    @Column({ type: "varchar", length: 255 })
-    title: string;
+    @Column()
+    title!: string;
   
-    @Column({ type: "text" })
-    description: string;
+    @Column("text")
+    description!: string;
   
-    @Column({ type: "timestamp" })
-    startDate: Date;
+    @Column()
+    startDate!: Date;
   
-    @Column({ type: "timestamp" })
-    endDate: Date;
+    @Column()
+    endDate!: Date;
   
-    @Column({ type: "varchar", length: 255 })
-    location: string;
+    @Column()
+    location!: string;
   
     @CreateDateColumn()
-    createdAt: Date;
+    createdAt!: Date;
   
     @UpdateDateColumn()
-    updatedAt: Date;
+    updatedAt!: Date;
   }
   
