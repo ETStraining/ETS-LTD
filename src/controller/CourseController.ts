@@ -4,11 +4,10 @@ import { Course } from "../entity/course";
 
 export class CourseController {
     private courseRepository = AppDataSource.getRepository(Course);
-  
-    // Create a new course
+
     async create(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
         const { title, description, image, status, duration, instructor, prerequisites, category } = request.body;
-
+    
         const course = this.courseRepository.create({
             title,
             description,
@@ -19,20 +18,41 @@ export class CourseController {
             prerequisites,
             category
         });
-
+    
         try {
+            // Save the course in the database
             const savedCourse = await this.courseRepository.save(course);
-            return response.status(201).json(savedCourse);
+    
+            // Extract only required fields from savedCourse to avoid circular structures
+            const safeCourse = {
+                id: savedCourse.Courseid, // Ensure this matches the primary key field in your database
+                title: savedCourse.title,
+                description: savedCourse.description,
+                image: savedCourse.image,
+                status: savedCourse.status,
+                duration: savedCourse.duration,
+                instructor: savedCourse.instructor,
+                prerequisites: savedCourse.prerequisites,
+                category: savedCourse.category,
+            };
+    
+            // Return the serialized data as JSON
+            return response.status(201).json(safeCourse);
         } catch (error) {
-            return next(error);
+            // Send a JSON-safe error response
+            return response.status(500).json({
+                message: error instanceof Error ? error.message : 'An error occurred while saving the course.',
+            });
         }
     }
+    
+
 
     // Retrieve all courses
     async all(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
         try {
             const courses = await this.courseRepository.find();
-            return response.status(200).json(courses);
+            return response.status(200).json(courses);  // Returning serialized courses array
         } catch (error) {
             return next(error);
         }
@@ -41,13 +61,13 @@ export class CourseController {
     // Find a specific course by ID
     async findCourse(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
         const id = request.params.id;
-        
+
         try {
             const course = await this.courseRepository.findOne({ where: { Courseid: id } });
             if (!course) {
                 return response.status(404).json({ message: "Course not found" });
             }
-            return response.status(200).json(course);
+            return response.status(200).json(course);  // Returning serialized course object
         } catch (error) {
             return next(error);
         }
@@ -64,18 +84,21 @@ export class CourseController {
                 return response.status(404).json({ message: "Course not found" });
             }
 
-            // Update fields
-            courseToUpdate.title = title ?? courseToUpdate.title;
-            courseToUpdate.description = description ?? courseToUpdate.description;
-            courseToUpdate.image = image ?? courseToUpdate.image;
-            courseToUpdate.status = status ?? courseToUpdate.status;
-            courseToUpdate.duration = duration ?? courseToUpdate.duration;
-            courseToUpdate.instructor = instructor ?? courseToUpdate.instructor;
-            courseToUpdate.prerequisites = prerequisites ?? courseToUpdate.prerequisites;
-            courseToUpdate.category = category ?? courseToUpdate.category;
+            // Create a new object with updated fields
+            const updatedCourseData = {
+                ...courseToUpdate,
+                title: title ?? courseToUpdate.title,
+                description: description ?? courseToUpdate.description,
+                image: image ?? courseToUpdate.image,
+                status: status ?? courseToUpdate.status,
+                duration: duration ?? courseToUpdate.duration,
+                instructor: instructor ?? courseToUpdate.instructor,
+                prerequisites: prerequisites ?? courseToUpdate.prerequisites,
+                category: category ?? courseToUpdate.category,
+            };
 
-            const updatedCourse = await this.courseRepository.save(courseToUpdate);
-            return response.status(200).json(updatedCourse);
+            const updatedCourse = await this.courseRepository.save(updatedCourseData);
+            return response.status(200).json(updatedCourse);  // Returning serialized updated course data
         } catch (error) {
             return next(error);
         }
@@ -92,7 +115,7 @@ export class CourseController {
             }
 
             await this.courseRepository.remove(courseToRemove);
-            return response.status(200).json({ message: "Course deleted" });
+            return response.status(200).json({ message: "Course deleted" });  // Returning serialized message
         } catch (error) {
             return next(error);
         }

@@ -2,9 +2,9 @@
    "name": "typeorm-sample",
    "version": "0.0.1",
    "description": "Awesome project developed with TypeORM.",
-   "type": "commonjs",
    "devDependencies": {
       "@types/express": "^5.0.0",
+      "@types/multer": "^1.4.12",
       "@types/node": "^16.11.10",
       "nodemon": "^3.1.7",
       "ts-node": "10.9.1",
@@ -12,8 +12,11 @@
    },
    "dependencies": {
       "body-parser": "^1.19.1",
+      "cloudinary": "^2.5.1",
       "dotenv": "^16.4.5",
       "express": "^4.17.2",
+      "multer": "^1.4.5-lts.1",
+      "path": "^0.12.7",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",
       "typeorm": "0.3.20"
