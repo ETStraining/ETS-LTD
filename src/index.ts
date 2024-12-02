@@ -1,4 +1,3 @@
-
 import express, { Request, Response, NextFunction } from "express";
 import bodyParser from "body-parser";
 import { AppDataSource } from "./data-source";
@@ -7,7 +6,7 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerSpec from "./swaggerConfig";
 swaggerSpec
 const app = express();
-const PORT = 3000;
+const PORT = 4000;
 
 AppDataSource.initialize().then(async () => {
   app.use(bodyParser.json());
@@ -15,7 +14,7 @@ AppDataSource.initialize().then(async () => {
 
   // Initialize routes
   routes.forEach(route => {
-    const controllerInstance = new (route.controller as any)(); 
+    const controllerInstance = new (route.controller as any)();
 
     (app as any)[route.method](route.route, async (req: Request, res: Response, next: NextFunction) => {
       try {
