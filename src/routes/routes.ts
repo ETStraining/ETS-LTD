@@ -144,7 +144,7 @@ export const routes = [
     route: "/courses/:id",
     controller: CourseController,
     action: "remove"
-  }
+  },
 
 
   {

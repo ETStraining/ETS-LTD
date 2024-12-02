@@ -40,7 +40,7 @@ export class CourseController {
 
     // Find a specific course by ID
     async findCourse(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
-        const id = request.params.id;
+        const {id} = request.params;
         
         try {
             const course = await this.courseRepository.findOne({ where: { Courseid: id } });
@@ -55,7 +55,7 @@ export class CourseController {
 
     // Update an existing course
     async update(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
-        const id = request.params.id;
+        const {id} = request.params;
         const { title, description, image, status, duration, instructor, prerequisites, category } = request.body;
 
         try {
@@ -83,7 +83,7 @@ export class CourseController {
 
     // Delete a course
     async remove(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
-        const id = request.params.id;
+        const {id} = request.params;
 
         try {
             const courseToRemove = await this.courseRepository.findOneBy({ Courseid: id });

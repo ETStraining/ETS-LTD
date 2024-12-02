@@ -19,7 +19,7 @@ export class AdminController {
 
     // Get one admin by ID
     async one(request: Request, response: Response, next: NextFunction) {
-        const id = request.params.id; // UUID is string
+        const {id} = request.params; // UUID is string
 
         try {
             const admin = await this.adminRepository.findOne({
@@ -57,7 +57,7 @@ export class AdminController {
 
     // Remove admin by ID
     async remove(request: Request, response: Response, next: NextFunction) {
-        const id = request.params.id; // UUID is string
+        const {id} = request.params; // UUID is string
 
         try {
             let adminToRemove = await this.adminRepository.findOneBy({ id: id as string });
