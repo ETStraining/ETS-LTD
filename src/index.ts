@@ -14,7 +14,7 @@ AppDataSource.initialize().then(async () => {
 
   // Initialize routes
   routes.forEach(route => {
-    const controllerInstance = new (route.controller as any)(); // Instantiate the controller
+    const controllerInstance = new (route.controller as any)(); 
 
     (app as any)[route.method](route.route, async (req: Request, res: Response, next: NextFunction) => {
       try {

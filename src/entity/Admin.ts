@@ -34,7 +34,6 @@ export class Admin {
   @UpdateDateColumn()
   updatedAt: Date = new Date(); // Default value for updatedAt
 
-  // Hash the password before saving
   @BeforeInsert()
   async hashPassword() {
     if (this.password) {

@@ -7,7 +7,7 @@ export class User {
     id!: string;
 
     @Column({ type: "varchar", length: 50, nullable: true })
-firstName!: string;
+    firstName!: string;
 
 
     @Column({ length: 50, nullable: true })
@@ -20,7 +20,7 @@ firstName!: string;
     email!: string;
 
     @Column({ type: "varchar", nullable: true })
-password!: string;
+    password!: string;
 
     @Column({ default: false })
     isVerified!: boolean;
