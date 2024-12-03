@@ -11,13 +11,19 @@ export class Contact {
   contactId!: string;
 
   @Column()
-  name!: string;
+  company!: string;
+
+  @Column()
+  fullName!: string;
 
   @Column({ unique: true })
   email!: string;
 
   @Column("text")
   message!: string;
+
+  @Column()
+  phoneNumber!: string;
 
   @CreateDateColumn()
   submittedAt!: Date;
