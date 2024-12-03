@@ -81,7 +81,7 @@
  * @swagger
  * /users/register:
  *   post:
- *     summary: Register a new user
+ *     summary: Register a new user account
  *     description: Endpoint to register a new user account
  *     tags: [Users]
  *     requestBody:
@@ -215,7 +215,7 @@
  * /users/{id}:
  *   delete:
  *     summary: Remove a user by ID
- *     description: Deletes a user from the system
+ *     description: Deletes a user account
  *     tags: [Users]
  *     parameters:
  *       - in: path
