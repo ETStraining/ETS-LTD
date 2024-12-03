@@ -5,6 +5,7 @@ import { validationMiddleware } from "../middleware/contactVal";
 import { ContactDTO } from "../dto/ContactDTO";
 import {ServiceController} from "../controller/serviceController";
 import {CourseController} from "../controller/CourseController";
+import { getTrainings,createTraining,getTrainingById,deleteTraining,updateTraining, } from "../controller/TrainingController";
 
 export const routes = [
   // User routes
@@ -85,13 +86,13 @@ export const routes = [
     // Service routes
   {
     method: "get",
-    route: "/services",
+    route: "/services/list",
     controller: ServiceController,
     action: "all"
   },
   {
     method: "post",
-    route: "/services",
+    route: "/services/add",
     controller: ServiceController,
     action: "create"
   },
@@ -149,7 +150,7 @@ export const routes = [
 
   {
     method: "get",
-    route: "/contacts",
+    route: "/contacts/list",
     controller: ContactController,
     action: "getAll",
   },
@@ -161,7 +162,7 @@ export const routes = [
   },
   {
     method: "post",
-    route: "/contacts",
+    route: "/contacts/add",
     controller: ContactController,
     action: "create",
     middleware: validationMiddleware(ContactDTO), // Apply validation middleware
@@ -179,6 +180,39 @@ export const routes = [
     controller: ContactController,
     action: "delete",
   },
+
+    // Training routes
+    {
+      method: "get",
+      route: "/trainings/list",
+      controller: getTrainings,
+      action: "getTrainings",
+    },
+    {
+      method: "post",
+      route: "/trainings/add",
+      controller: createTraining,
+      action: "createTraining",
+    },
+    {
+      method: "get",
+      route: "/trainings/:id",
+      controller: getTrainingById,
+      action: "getTrainingById",
+    },
+    {
+      method: "put",
+      route: "/trainings/:id",
+      controller: updateTraining,
+      action: "updateTraining",
+    },
+    {
+      method: "delete",
+      route: "/trainings/:id",
+      controller: deleteTraining,
+      action: "deleteTraining",
+    },
+  
 ];
 
 
