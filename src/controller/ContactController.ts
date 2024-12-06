@@ -5,98 +5,70 @@ import { Contact } from "../entity/Contact";
 export class ContactController {
   private contactRepository = AppDataSource.getRepository(Contact);
 
-  // Fetch all contacts
   async getAll(_: Request, res: Response) {
     try {
       const contacts = await this.contactRepository.find();
-      return res.json(contacts); // Return the result properly
+      return res.json(contacts); // No need for plainToInstance here
     } catch (error) {
-      const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      return res.status(500).json({ error: errMessage });
+      console.error("Error fetching contacts:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
-  // Fetch a single contact by ID
   async getOne(req: Request, res: Response) {
     try {
-      const contact = await this.contactRepository.findOneBy({
-        contactId: req.params.id, // Changed 'id' to 'contactId'
-      });
-
+      const contact = await this.contactRepository.findOneBy({ contactId: req.params.id });
       if (!contact) {
         return res.status(404).json({ error: "Contact not found" });
       }
-
-      return res.json(contact); // Return the found contact
+      return res.json(contact);
     } catch (error) {
-      const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      return res.status(500).json({ error: errMessage });
+      console.error("Error fetching contact:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
-  // Create a new contact
   async create(req: Request, res: Response) {
     try {
-      const { company, fullName, email, phoneNumber, message } = req.body; // Adjusted fields based on the entity
-      const contact = this.contactRepository.create({
-        company,
-        fullName,
-        email,
-        phoneNumber,
-        message,
-      });
-
+      const contact = this.contactRepository.create(req.body);
       const savedContact = await this.contactRepository.save(contact);
-      return res.status(201).json(savedContact); // Return the created contact with a 201 status
-    } catch (error) {
-      const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      return res.status(400).json({ error: errMessage });
+      return res.status(201).json(savedContact);
+    } catch (error: any) {
+      console.error("Error creating contact:", error);
+      if (error.code === "23505") {
+        // Unique constraint violation (PostgreSQL-specific)
+        return res.status(400).json({ error: "Email must be unique" });
+      }
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
-  // Update an existing contact
   async update(req: Request, res: Response) {
     try {
-      const { company, fullName, email, phoneNumber, message } = req.body; // Adjusted fields based on the entity
-      const contact = await this.contactRepository.findOneBy({
-        contactId: req.params.id, // Changed 'id' to 'contactId'
-      });
-
+      const contact = await this.contactRepository.findOneBy({ contactId: req.params.id });
       if (!contact) {
         return res.status(404).json({ error: "Contact not found" });
       }
-
-      // Update properties
-      contact.company = company;
-      contact.fullName = fullName;
-      contact.email = email;
-      contact.phoneNumber = phoneNumber;
-      contact.message = message;
-
+      this.contactRepository.merge(contact, req.body);
       const updatedContact = await this.contactRepository.save(contact);
-      return res.json(updatedContact); // Return the updated contact
+      return res.json(updatedContact);
     } catch (error) {
-      const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      return res.status(400).json({ error: errMessage });
+      console.error("Error updating contact:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 
-  // Delete a contact
   async delete(req: Request, res: Response) {
     try {
-      const contact = await this.contactRepository.findOneBy({
-        contactId: req.params.id, // Changed 'id' to 'contactId'
-      });
-
+      const contact = await this.contactRepository.findOneBy({ contactId: req.params.id });
       if (!contact) {
         return res.status(404).json({ error: "Contact not found" });
       }
-
       await this.contactRepository.remove(contact);
-      return res.json({ message: "Contact deleted" }); // Confirm deletion
+      return res.json({ message: "Contact deleted successfully" });
     } catch (error) {
-      const errMessage = error instanceof Error ? error.message : "Unknown error occurred";
-      return res.status(500).json({ error: errMessage });
+      console.error("Error deleting contact:", error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
   }
 }
